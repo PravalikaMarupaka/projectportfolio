@@ -1,229 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio Manager - Dashboard</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <meta charset="UTF-8">
+  <title>FinVista – Portfolio Risk Dashboard</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <!-- Sidebar Navigation -->
-        <aside class="sidebar">
-            <div class="logo">
-                <h2>📊 Portfolio Manager</h2>
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="#" class="nav-link active" data-page="dashboard">🏠 Dashboard</a></li>
-                    <li><a href="#" class="nav-link" data-page="holdings">💼 Holdings</a></li>
-                    <li><a href="#" class="nav-link" data-page="performance">📈 Performance</a></li>
-                    <li><a href="#" class="nav-link" data-page="chatbot">🤖 AI Assistant</a></li>
-                    <li><a href="#" class="nav-link" data-page="settings">⚙️ Settings</a></li>
-                </ul>
-            </nav>
-        </aside>
 
-        <!-- Main Content -->
-        <main class="main-content">
-            <!-- Dashboard Page -->
-            <div id="dashboard" class="page active">
-                <header class="page-header">
-                    <h1>Dashboard</h1>
-                    <div class="user-selector">
-                        <label for="userId">Select User:</label>
-                        <select id="userId" onchange="loadDashboard()">
-                            <option value="1">John Doe</option>
-                            <option value="2">Jane Smith</option>
-                            <option value="3">Bob Wilson</option>
-                        </select>
-                    </div>
-                </header>
+<header class="navbar fade-in">
+  <h1><i class="fa-solid fa-chart-pie"></i> FinVista</h1>
+  <span>Risk & Diversification Insights</span>
+</header>
 
-                <!-- Portfolio Summary Cards -->
-                <div class="summary-cards">
-                    <div class="card">
-                        <h3>Total Portfolio Value</h3>
-                        <p class="value" id="totalValue">$0.00</p>
-                    </div>
-                    <div class="card">
-                        <h3>Total Cost</h3>
-                        <p class="value" id="totalCost">$0.00</p>
-                    </div>
-                    <div class="card">
-                        <h3>Profit/Loss</h3>
-                        <p class="value" id="profitLoss">$0.00</p>
-                    </div>
-                    <div class="card">
-                        <h3>Profit/Loss %</h3>
-                        <p class="value" id="profitLossPercent">0.00%</p>
-                    </div>
-                </div>
+<section class="dashboard fade-in">
 
-                <!-- Charts Row -->
-                <div class="charts-row">
-                    <div class="chart-container">
-                        <h3>Asset Allocation</h3>
-                        <canvas id="assetAllocationChart"></canvas>
-                    </div>
-                    <div class="chart-container">
-                        <h3>Portfolio Growth</h3>
-                        <canvas id="portfolioGrowthChart"></canvas>
-                    </div>
-                </div>
+  <div class="card">
+    <h3><i class="fa-solid fa-wallet"></i> Portfolio Value</h3>
+    <p class="value">₹8,50,000</p>
+  </div>
 
-                <!-- Top Holdings Table -->
-                <div class="table-container">
-                    <h3>Top Holdings</h3>
-                    <table id="holdingsTable">
-                        <thead>
-                            <tr>
-                                <th>Symbol</th>
-                                <th>Company</th>
-                                <th>Quantity</th>
-                                <th>Buy Price</th>
-                                <th>Current Price</th>
-                                <th>Current Value</th>
-                                <th>P/L</th>
-                                <th>P/L %</th>
-                            </tr>
-                        </thead>
-                        <tbody id="holdingsTableBody">
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+  <div class="card">
+    <h3><i class="fa-solid fa-triangle-exclamation"></i> Risk Level</h3>
+    <span class="risk high">High Concentration</span>
+  </div>
 
-            <!-- Holdings Page -->
-            <div id="holdings" class="page">
-                <header class="page-header">
-                    <h1>Holdings</h1>
-                    <button class="btn btn-primary" onclick="showBuyStockModal()">Buy Stock</button>
-                </header>
+  <div class="card">
+    <h3><i class="fa-solid fa-layer-group"></i> Diversification</h3>
+    <canvas id="diversificationChart"></canvas>
+  </div>
 
-                <div class="table-container">
-                    <table id="allHoldingsTable">
-                        <thead>
-                            <tr>
-                                <th>Symbol</th>
-                                <th>Company</th>
-                                <th>Quantity</th>
-                                <th>Buy Price</th>
-                                <th>Buy Date</th>
-                                <th>Current Price</th>
-                                <th>Current Value</th>
-                                <th>P/L</th>
-                                <th>P/L %</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="allHoldingsTableBody">
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+</section>
 
-            <!-- Performance Page -->
-            <div id="performance" class="page">
-                <header class="page-header">
-                    <h1>Performance & Risk Analysis</h1>
-                </header>
+<section class="chart-section fade-in">
+  <div class="chart-card">
+    <h3><i class="fa-solid fa-chart-line"></i> Performance Trend</h3>
+    <canvas id="performanceChart"></canvas>
+  </div>
+</section>
 
-                <div class="risk-analysis">
-                    <div class="card">
-                        <h3>Risk Category</h3>
-                        <p class="value" id="riskCategory">-</p>
-                    </div>
-                    <div class="card">
-                        <h3>Volatility Score</h3>
-                        <p class="value" id="volatilityScore">-</p>
-                    </div>
-                    <div class="card">
-                        <h3>Diversification Score</h3>
-                        <p class="value" id="diversificationScore">-</p>
-                    </div>
-                    <div class="card">
-                        <h3>Max Loss Tolerance</h3>
-                        <p class="value" id="maxLossTolerance">-</p>
-                    </div>
-                </div>
+<section class="trends fade-in">
+  <h2><i class="fa-solid fa-newspaper"></i> Market Trends</h2>
 
-                <div class="risk-details">
-                    <h3>Risk Analysis Details</h3>
-                    <div id="riskDetails"></div>
-                </div>
-            </div>
+  <div class="trend-card">
+    <h4>📉 Tech Sector Volatility</h4>
+    <p>Interest rate hikes affecting IT stocks.</p>
+    <span class="impact medium">Medium Impact</span>
+  </div>
 
-            <!-- Chatbot Page -->
-            <div id="chatbot" class="page">
-                <header class="page-header">
-                    <h1>AI Portfolio Assistant</h1>
-                </header>
+  <div class="trend-card">
+    <h4>📈 Gold as Safe Haven</h4>
+    <p>Gold demand rising amid uncertainty.</p>
+    <span class="impact low">Low Risk</span>
+  </div>
+</section>
 
-                <div class="chatbot-container">
-                    <div class="chat-messages" id="chatMessages">
-                        <div class="message bot-message">
-                            <p>👋 Hello! I'm your AI Portfolio Assistant. I can help you with portfolio analysis, risk assessment, and stock recommendations. How can I assist you today?</p>
-                        </div>
-                    </div>
-                    <div class="chat-input-container">
-                        <input type="text" id="chatInput" placeholder="Type your message..." onkeypress="handleChatKeyPress(event)">
-                        <button class="btn btn-primary" onclick="sendChatMessage()">Send</button>
-                    </div>
-                    <div class="quick-actions" id="quickActions">
-                        <button class="btn btn-secondary" onclick="sendQuickAction('What is my portfolio value?')">💰 Portfolio Value</button>
-                        <button class="btn btn-secondary" onclick="sendQuickAction('How risky is my portfolio?')">⚠️ Risk Analysis</button>
-                        <button class="btn btn-secondary" onclick="sendQuickAction('Recommend stocks to buy')">📈 Recommend Buy</button>
-                        <button class="btn btn-secondary" onclick="sendQuickAction('Suggest stocks to sell')">📉 Suggest Sell</button>
-                    </div>
-                </div>
-            </div>
+<button class="chatbot-btn" onclick="toggleChat()">
+  <i class="fa-solid fa-robot"></i>
+</button>
 
-            <!-- Settings Page -->
-            <div id="settings" class="page">
-                <header class="page-header">
-                    <h1>Settings</h1>
-                </header>
+<div class="chatbot" id="chatbot">
+  <div class="chat-header">🤖 FinBot Assistant</div>
+  <div class="chat-body" id="chatBody">
+    <p class="bot">Hi! Ask me about risk, diversification or trends.</p>
+  </div>
+  <input type="text" placeholder="Ask something…" onkeypress="sendMessage(event)">
+</div>
 
-                <div class="settings-container">
-                    <div class="card">
-                        <h3>User Information</h3>
-                        <div id="userInfo"></div>
-                    </div>
-                    <div class="card">
-                        <h3>Bank Account</h3>
-                        <div id="bankAccountInfo"></div>
-                    </div>
-                </div>
-            </div>
-        </main>
-    </div>
-
-    <!-- Buy Stock Modal -->
-    <div id="buyStockModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeBuyStockModal()">&times;</span>
-            <h2>Buy Stock</h2>
-            <form id="buyStockForm" onsubmit="buyStock(event)">
-                <div class="form-group">
-                    <label for="stockSymbol">Stock Symbol:</label>
-                    <input type="text" id="stockSymbol" required>
-                </div>
-                <div class="form-group">
-                    <label for="quantity">Quantity:</label>
-                    <input type="number" id="quantity" min="1" required>
-                </div>
-                <div class="form-group">
-                    <label for="buyPrice">Buy Price:</label>
-                    <input type="number" id="buyPrice" step="0.01" min="0.01" required>
-                </div>
-                <button type="submit" class="btn btn-primary">Buy</button>
-            </form>
-        </div>
-    </div>
-
-    <script src="app.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
-
